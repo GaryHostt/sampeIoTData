@@ -49,7 +49,11 @@ def submitData(data):
     #conn.request("POST", "/ords/apexuser/deviceTimes/times", data, headers)
     #res = conn.getresponse()
     #requests.post('https://v8uivlpip7dqhaw-ramautodb.adb.us-ashburn-1.oraclecloudapps.com/ords/apexuser/deviceTimes/times', data, headers, timeout=5)
-    requests.post('https://v8uivlpip7dqhaw-ramautodb.adb.us-ashburn-1.oraclecloudapps.com/ords/apexuser/deviceTimes/times', data, headers)
+    payload = data
+    print('payload submitted below')
+    print(payload)
+    r = requests.post('https://v8uivlpip7dqhaw-ramautodb.adb.us-ashburn-1.oraclecloudapps.com/ords/apexuser/deviceTimes/times', payload, headers)
+    print(r.status_code)
     #except socket.timeout as e:
         #print(e)
     #except Exception as e:
