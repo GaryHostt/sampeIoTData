@@ -42,7 +42,7 @@ def submitData(data):
             }
     payload = data
     print(payload)  
-    url='https://v8uivlpip7dqhaw-ramautodb.adb.us-ashburn-1.oraclecloudapps.com/ords/apexuser/deviceTimes/times'
+    url='https://BASE_URL/ords/apexuser/deviceTimes/times'
     r = requests.request("POST", url, data=payload, headers=headers)
     print(r.status_code)
     response = requests.Session()
