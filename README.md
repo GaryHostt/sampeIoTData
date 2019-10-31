@@ -19,3 +19,7 @@ Go to the Service console.
 ![](/screenshots/4.png)
 
 Open the Development tab, and your ORDS base url is on the right. 
+
+![](/screenshots/5.png)
+
+Now the dashboards on this apex application will be able to update in real-time, simulating real sensor data. 
