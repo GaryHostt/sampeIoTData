@@ -46,7 +46,7 @@ def submitData(data):
             }
     payload = data
     print(payload)  
-    url='https://BASE_URL/ords/apexuser/deviceTimes/times'
+    url='https://BASE_ORDS_URL/ords/apexuser/deviceTimes/times'
     r = requests.request("POST", url, data=payload, headers=headers)
     print(r.status_code)
     response = requests.Session()
