@@ -23,3 +23,5 @@ Open the Development tab, and your ORDS base url is on the right.
 ![](/screenshots/5.png)
 
 Now the dashboards on this apex application will be able to update in real-time, simulating real sensor data. 
+
+[Inspired by sbs-iot-data-generator](https://github.com/aws-samples/sbs-iot-data-generator)
