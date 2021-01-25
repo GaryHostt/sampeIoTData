@@ -9,13 +9,9 @@ import http.client
 from random import randint, choice
 import urllib
 
-#from manufacturingdevices table in ATP
-#PressureDeviceNames = ['JN1994', 'BB4848']
-#TemperatureDeviceNames = ['BB200','BB207', 'AB9191']
-#FlowDeviceNames = ['BB201', 'XX9888']
-
+#pulls deviceIDs from ORDS API
 def getFlowDevices():
-    url = 'BASE_URL/ords/apexuser/devices/Flow'
+    url = '<BASE_URL>/ords/apexuser/devices/Flow'
     r = requests.request("GET", url)
     json_data = json.loads(r.text)
     response = json_data['items']
@@ -25,17 +21,15 @@ def getFlowDevices():
             if not deviceidfield == 'deviceid':
                 pass
             else:
-                #time.sleep(1)
                 answer = (deviceid[deviceidfield])
                 if answer not in x:
                     x.append(answer)
         if len(x) > 1:
-            #print(x)
             pass
     FlowDeviceNames = x
     return FlowDeviceNames
 def getTemperatureDevices():
-    url = 'BASE_URL/ords/apexuser/devices/Temperature'
+    url = '<BASE_URL>/ords/apexuser/devices/Temperature'
     r = requests.request("GET", url)
     json_data = json.loads(r.text)
     response = json_data['items']
@@ -45,7 +39,6 @@ def getTemperatureDevices():
             if not deviceidfield == 'deviceid':
                 pass
             else:
-                #time.sleep(1)
                 answer = (deviceid[deviceidfield])
                 if answer not in x:
                     x.append(answer)
@@ -54,7 +47,7 @@ def getTemperatureDevices():
     TemperatureDeviceNames = x
     return TemperatureDeviceNames
 def getPressureDevices():
-    url = 'BASE_URL/ords/apexuser/devices/Pressure'
+    url = '<BASE_URL>/ords/apexuser/devices/Pressure'
     r = requests.request("GET", url)
     json_data = json.loads(r.text)
     response = json_data['items']
@@ -71,6 +64,7 @@ def getPressureDevices():
             pass
     PressureDeviceNames = x
     return PressureDeviceNames
+#creates fake measurements and JSON payload
 def getFlow(timee, FlowDeviceNames):
     data = {}
     data['deviceid'] = random.choice(FlowDeviceNames)
@@ -100,17 +94,22 @@ def submitData(data):
             }
     payload = data
     print(payload)  
-    url='BASE_URL/ords/apexuser/deviceTimes/times'
+    url='<BASE_URL>/ords/apexuser/deviceTimes/times'
     r = requests.request("POST", url, data=payload, headers=headers)
-    print(r.status_code)
+    #print(r.status_code)
     response = requests.Session()
-# Send payload to database API
+# Deletes data from time table to restart cycle
 def deleteData():
-    url='BASE_URL/ords/apexuser/deviceTimes/times'
+    url='<BASE_URL>/ords/apexuser/deviceTimes/times'
     r = requests.request("DELETE", url)
     print(r.status_code)
     response = requests.Session()
-# Deletes data from time table
+# begins counting submissions to simulate metadata on sensors
+i = 0
+h = 0
+j = 0
+k = 0
+# Send payload to database API, runs above functions
 while True:
     getFlowDevices()
     getTemperatureDevices()
@@ -119,24 +118,33 @@ while True:
     TemperatureDeviceNames = getTemperatureDevices()
     PressureDeviceNames = getPressureDevices()
     time.sleep(1)
+    i += 1
+    print(i)
+    print(h)
+    print(j)
+    print(k)
     rnd = random.random()
-    #print(rnd)
     dateTimeObj = datetime.now()
     timee = dateTimeObj.strftime("%Y-%m-%dT%H:%M:%SZ")
     if (0 <= rnd < 0.20):
         data = json.dumps(getFlow(timee, FlowDeviceNames))
         submitData(data)
-        print('flow data submitted')
+        h += 1
+        print("Flow data submitted, this is the above data point out of (3 above)total datapoints.")
     elif (0.20<= rnd < 0.55):
         data = json.dumps(getTemperature(timee, TemperatureDeviceNames))
         submitData(data)
-        print('temperature data submitted')
+        # counting for metadata
+        j += 1
+        print("Temperature data submitted, this is the above data point out of (2 above)total datapoints.")
     elif (0.55<= rnd < 0.70):
         data = json.dumps(getPressure(timee, PressureDeviceNames))
         submitData(data)
-        print('pressure data submitted')
+        k += 1
+        print("Pressure data submitted, this is the above data point out of (1 above)total datapoints.")
     elif (0.7255<= rnd < 0.73):
         deleteData()
-        print('data deleted, restarting monitoring')
-
+        print(i)
+        print(h)
+        print('Data deleted, restarting monitoring after (top) total datapoints.')
         
