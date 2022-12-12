@@ -71,21 +71,21 @@ def getFlow(timee, FlowDeviceNames):
     data['measurement'] = choice([(random.randint(60,100)),(random.randint(101,105))])
     data['datetime'] = timee
     data['parameter'] = 'Flow'
-    return data
+    return json.dumps(data)
 def getTemperature(timee, TemperatureDeviceNames):
     data = {}
     data['deviceid'] = random.choice(TemperatureDeviceNames)
     data['measurement'] = choice([(random.randint(15,35)),(random.randint(36,50))])
     data['datetime'] = timee
     data['parameter'] = 'Temperature'
-    return data
+    return json.dumps(data)
 def getPressure(timee, PressureDeviceNames):
     data = {}
     data['deviceid'] = random.choice(PressureDeviceNames)
     data['measurement'] = choice([(random.randint(50,90)),(random.randint(91,105))])
     data['datetime'] = timee
     data['parameter'] = 'Pressure'
-    return data
+    return json.dumps(data)
 # Generate each parameter's data input in varying proportions
 def submitData(data):
     headers = {
